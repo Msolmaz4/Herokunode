@@ -1,5 +1,6 @@
 import express from 'express'
 import pageRouter from './routes/pageRouter.js'
+import photoRouter from './routes/photoRouter.js'
 
 
 import dotenv from 'dotenv'
@@ -19,6 +20,7 @@ const port = 4500
 app.set('view engine','ejs')
 //router
 app.use('/',pageRouter)
+app.use('/photos',photoRouter)
 
 
 /*
