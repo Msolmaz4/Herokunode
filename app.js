@@ -18,7 +18,11 @@ const port = 4500
 
 //ejs 
 app.set('view engine','ejs')
+app.use(express.json())
+
+app.use(express.static('public'))
 //router
+
 app.use('/',pageRouter)
 app.use('/photos',photoRouter)
 

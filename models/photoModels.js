@@ -2,7 +2,7 @@ import mongoose  from "mongoose";
 const {Schema} = mongoose
 
 
-const PhotoSchema = new Schema({
+const photoSchema = new Schema({
     name:{
         type:String,
         required:true,
