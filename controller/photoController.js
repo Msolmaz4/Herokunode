@@ -17,12 +17,32 @@ const createPhoto = async (req, res) => {
 };
 
 //butun fotograflari cagirmak icin
-const getAllPhotos = async(req,res)=>{
+//ilk basta boyle zapariy geneli gormek icin
+/**
+ * const getAllPhotos = async(req,res)=>{
     try {
         const photos = await Photo.find({})
         res.status(200).json({
             succed:true,
             photos
+        })
+        
+    } catch (err) {
+        
+    }
+
+}
+
+ */
+
+//burda sageerkeli sayfayi ]render ederiz
+// res.status(200).render('photos') sonra gelenleri de yuklemekicin r('photos',{photos }) yaoarak yenileri de //yukleriz
+const getAllPhotos = async(req,res)=>{
+    try {
+        const photos = await Photo.find({})
+        res.status(200).render('photos',{
+          photos,
+          link: 'photos',
         })
         
     } catch (err) {
