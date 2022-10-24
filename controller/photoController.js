@@ -51,6 +51,22 @@ const getAllPhotos = async(req,res)=>{
 
 }
 
+//fotografin detailin gitmek icin
+//obje oldugundan ({_id : req.body.id}) : iki nokta ile esirledik buna dikkat
+
+const getAPhotos = async(req,res)=>{
+  try {
+      const photo = await Photo.findById({ _id: req.params.id })
+      res.status(200).render('photo',{
+        photo,
+        link: 'photos',
+      })
+      
+  } catch (err) {
+      
+  }
+
+}
 
 
-export { createPhoto,getAllPhotos };
+export { createPhoto,getAllPhotos,getAPhotos };
