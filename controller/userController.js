@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 //temelde baasit yapiyi kurdiuk geleni req.body attik sonra res statiu sile geri gonderdik
 //bunu yaptiktan sonra register els action yapmayi unutmaaction user/regisetr methof post
@@ -33,7 +34,11 @@ const loginUser= async (req, res) => {
       });
     }
     if(same){
-      res.status(400).send('dddddddddd')
+      // .send('dddddddddd') bunu ilk deneme icin 
+      res.status(400).json({
+        user,
+        token:createToken(user._id)
+      })
     }
     else{
       res.status(500).json({
@@ -51,6 +56,16 @@ const loginUser= async (req, res) => {
 };
 
 
+//buradada jwebtokeni kullamiyityor burda once userid alsin biy id saklamaj istiyoruy
+//returnyapizoru  sonra sign kullaniyoruy sign bak
+//uc parametre aliyor ilk once ne kullancagiy sonra sifreme sonra sure
+//sonra login girisye gonderroy 
+const createToken=(userId)=>{
+  return jwt.sign({userId},process.env.JWT_SECRET,{
+    expiresIn:'1d'
 
+  })
+
+}
 
 export { createUser,loginUser };
