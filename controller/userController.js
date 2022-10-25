@@ -35,10 +35,25 @@ const loginUser= async (req, res) => {
     }
     if(same){
       // .send('dddddddddd') bunu ilk deneme icin 
-      res.status(400).json({
+      //token uretmeyi burrda yeniden yaapriz
+      /**
+       * json({
         user,
         token:createToken(user._id)
+       */
+      //sonra yenii token yapama
+      const token = createToken(user._id)
+      res.cookie('jwt',token, {
+        httOnly:true,
+        maxAge:1000*60*60*24
       })
+      /**
+       * res.status(400).json({
+        user
+      })
+       */
+      //giris yaptiktan sonra 
+      res.redirect('/users/dashboard')
     }
     else{
       res.status(500).json({
@@ -68,4 +83,11 @@ const createToken=(userId)=>{
 
 }
 
-export { createUser,loginUser };
+const getDashboardPage =(req,res)=>{
+  res.render('dashboard',{
+      link:'dashboard'
+  })
+}
+
+
+export { createUser,loginUser,getDashboardPage };
