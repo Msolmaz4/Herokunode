@@ -3,6 +3,7 @@ import pageRouter from './routes/pageRouter.js'
 import photoRouter from './routes/photoRouter.js'
 import userRouter from './routes/userRouter.js'
 import cookieParser from 'cookie-parser'
+import {checkUser} from './middlerwares/authMiddleware.js'
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -25,7 +26,8 @@ app.use(cookieParser())
 
 app.use(express.static('public'))
 //router
-
+//burada check yaprik her get te kontrol et
+app.use('*',checkUser)
 app.use('/',pageRouter)
 app.use('/photos',photoRouter)
 app.use('/users',userRouter)
