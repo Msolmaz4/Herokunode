@@ -1,5 +1,8 @@
 import mongoose  from "mongoose";
 import bcrypt from 'bcrypt'
+//bunu sonradan yapariuy hatalarir icin
+import validator from 'validator'
+
 const {Schema} = mongoose
 
 
@@ -7,16 +10,19 @@ const userSchema = new Schema({
     username:{
         type:String,
         required:true,
-        unique:true
+        lowercase:true,
+        validate:[validator.isAlphanumeric,'lapnumeric']
     },
       email:{
         type:String,
-        required:true,
-        unique:true
+        required:[true,'arial isst required'],
+        unique:true,
+        validate:[validator.isEmail,'VALID IST EMAIL']
     },
     password:{
         type:String,
-        required:true
+        required:true,
+        minLenght:[4,'At least 4 chrackter']
     }
 },{
     timestamps:true
