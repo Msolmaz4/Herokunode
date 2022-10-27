@@ -3,8 +3,12 @@ import Photo from "../models/photoModels.js";
 //temelde baasit yapiyi kurdiuk geleni req.body attik sonra res statiu sile geri gonderdik
 const createPhoto = async (req, res) => {
   try {
-    const photo = await Photo.create(req.body);
-    res.status(201).redirect('/users/dashboard')
+    await Photo.create({
+      name:req.body.name,
+      description:req.body.description,
+      user:res.locals.user._id
+    });
+    res.redirect('/users/dashboard')
     
   } catch (error) {
     res.status(500).json({
