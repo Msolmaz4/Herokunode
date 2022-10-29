@@ -8,7 +8,7 @@ const createPhoto = async (req, res) => {
       description:req.body.description,
       user:res.locals.user._id
     });
-    res.redirect('/users/dashboard')
+    res.status(201).redirect('/users/dashboard');
     
   } catch (error) {
     res.status(500).json({

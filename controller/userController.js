@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-
+import Photo from '../models/photoModels.js'
 //temelde baasit yapiyi kurdiuk geleni req.body attik sonra res statiu sile geri gonderdik
 //bunu yaptiktan sonra register els action yapmayi unutmaaction user/regisetr methof post
 const createUser = async (req, res) => {
@@ -91,10 +91,13 @@ const createToken=(userId)=>{
 
 }
 
-const getDashboardPage =(req,res)=>{
-  res.render('dashboard',{
-      link:'dashboard'
-  })
+
+  const getDashboardPage = async (req, res) => {
+    const photos = await Photo.find({ user: res.locals.user._id });
+    res.render('dashboard', {
+      link: 'dashboard',
+      photos,
+    });
 }
 
 
