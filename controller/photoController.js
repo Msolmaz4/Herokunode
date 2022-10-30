@@ -1,12 +1,31 @@
 import Photo from "../models/photoModels.js";
 
+//cloud sonra yaptik
+import {v2 as cloudinary} from 'cloudinary'
+
+
+
 //temelde baasit yapiyi kurdiuk geleni req.body attik sonra res statiu sile geri gonderdik
 const createPhoto = async (req, res) => {
+
+
+
+//burada colud islemi  yukleme yaman alir dasboard form nctype="multipart/form-data"ve name image ekledik onemli
+
+const result = await cloudinary.uploader.upload(
+  req.files.image.tempFilePath,{
+    use_filename:true,
+    folder:'lenslight_tr'
+  }
+)
+console.log(result)
+
   try {
     await Photo.create({
       name:req.body.name,
       description:req.body.description,
-      user:res.locals.user._id
+      user:res.locals.user._id,
+      url:result.secure_url
     });
     res.status(201).redirect('/users/dashboard');
     

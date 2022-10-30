@@ -5,8 +5,22 @@ import userRouter from './routes/userRouter.js'
 import cookieParser from 'cookie-parser'
 import {checkUser} from './middlerwares/authMiddleware.js'
 
+//bunu bilgisatrdan yyuklerken name ulasmasi icn 
+import fileUpload from 'express-fileupload'
+//bunu depolamak icin kullaniriz
+import {v2 as cloudinary} from 'cloudinary'
+
 import dotenv from 'dotenv'
 dotenv.config()
+
+cloudinary.config({
+    cloud_name:process.env.CLOUD_NAME,
+    api_key:process.env.CLOUD_API_KEY,
+    api_secret:process.env.CLOUD_API_SECRET
+
+
+})
+
 
 import con from './db.js'
 //
@@ -23,6 +37,7 @@ app.set('view engine','ejs')
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
+app.use(fileUpload({useTempFiles:true}))
 
 app.use(express.static('public'))
 //router
