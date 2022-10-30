@@ -94,6 +94,10 @@ const createToken=(userId)=>{
 
   const getDashboardPage = async (req, res) => {
     const photos = await Photo.find({ user: res.locals.user._id });
+    const user = await User.findById({_id:res.locals.user._id}).populate([
+      'followings',
+       'followers'
+    ])
     res.render('dashboard', {
       link: 'dashboard',
       photos,
@@ -116,7 +120,7 @@ const getAllUsers = async(req,res)=>{
 const getAUsers = async(req,res)=>{
   try {
       const user = await User.findById({ _id: req.params.id })
-      const photos = await Photo.find({user:res.locals.user._id})
+      const photos = await Photo.find({user:user._id})
       res.status(200).render('user',{
         user,
         photos,
@@ -129,4 +133,64 @@ const getAUsers = async(req,res)=>{
 
 }
 
-export { createUser,loginUser,getDashboardPage,getAllUsers ,getAUsers};
+//buraada once takip yaptik yeni bir user ve bunun andUpdate id ekleriz ve push yapariz sonra new olarak dondurur
+//ikinci userde biyim takip ettigimiz icin 
+const follow = async(req,res)=>{
+  try {
+      
+    let user =await User.findByIdAndUpdate(
+      {
+      _id:req.params.id
+    },
+    {
+      $push:{followers:res.locals.user._id}
+    },{
+      new:true
+    }
+    )
+    user= await User.findByIdAndUpdate(
+      {_id:res.locals.user._id},
+      {$push:{following :req.params.id}},
+      {new:true}
+    )
+    res.status(200).json({
+      succed:true,
+      user
+    })
+      
+  } catch (err) {
+      
+  }
+
+}
+
+const unfollow = async(req,res)=>{
+  try {
+      
+    let user =await User.findByIdAndUpdate(
+      {
+      _id:req.params.id
+    },
+    {
+      $pull:{followers:res.locals.user._id}
+    },{
+      new:true
+    }
+    )
+    user= await User.findByIdAndUpdate(
+      {_id:res.locals.user._id},
+      {$pull:{following :req.params.id}},
+      {new:true}
+    )
+    res.status(200).json({
+      succed:true,
+      user
+    })
+      
+  } catch (err) {
+      
+  }
+
+}
+
+export { createUser,loginUser,getDashboardPage,getAllUsers ,getAUsers,follow,unfollow};
