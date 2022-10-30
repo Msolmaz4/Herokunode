@@ -2,6 +2,7 @@ import Photo from "../models/photoModels.js";
 
 //cloud sonra yaptik
 import {v2 as cloudinary} from 'cloudinary'
+import fs from 'fs'
 
 
 
@@ -27,6 +28,7 @@ console.log(result)
       user:res.locals.user._id,
       url:result.secure_url
     });
+    fs.unlinkSync(req.files.mage.tempFilePath)
     res.status(201).redirect('/users/dashboard');
     
   } catch (error) {
@@ -60,11 +62,15 @@ console.log(result)
 // res.status(200).render('photos') sonra gelenleri de yuklemekicin r('photos',{photos }) yaoarak yenileri de //yukleriz
 const getAllPhotos = async(req,res)=>{
     try {
-        const photos = await Photo.find({})
+        const photos = res.locals.user
+         ?  await Photo.find({user:{$ne:res.locals.user._id}})
+         : await Photo.find({})
         res.status(200).render('photos',{
           photos,
           link: 'photos',
         })
+  
+       
         
     } catch (err) {
         
@@ -77,7 +83,7 @@ const getAllPhotos = async(req,res)=>{
 
 const getAPhotos = async(req,res)=>{
   try {
-      const photo = await Photo.findById({ _id: req.params.id })
+      const photo = await Photo.findById({ _id: req.params.id }).populate('user')
       res.status(200).render('photo',{
         photo,
         link: 'photos',
