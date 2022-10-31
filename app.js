@@ -4,6 +4,7 @@ import photoRouter from './routes/photoRouter.js'
 import userRouter from './routes/userRouter.js'
 import cookieParser from 'cookie-parser'
 import {checkUser} from './middlerwares/authMiddleware.js'
+import methodOverride from 'method-override'
 
 //bunu bilgisatrdan yyuklerken name ulasmasi icn 
 import fileUpload from 'express-fileupload'
@@ -38,6 +39,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use(fileUpload({useTempFiles:true}))
+app.use(methodOverride('_method',{
+    methods:['POST','POST']
+}))
 
 app.use(express.static('public'))
 //router
