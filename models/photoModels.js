@@ -1,6 +1,6 @@
 import mongoose  from "mongoose";
 const {Schema} = mongoose
-
+//image_id sonradan olustrdum silme icin
 
 const photoSchema = new Schema({
     name:{
@@ -24,6 +24,10 @@ const photoSchema = new Schema({
     url:{
         type:String,
         required:true
+
+    },
+    image_id:{
+        type:String,
 
     }
 })

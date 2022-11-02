@@ -26,7 +26,8 @@ console.log(result)
       name:req.body.name,
       description:req.body.description,
       user:res.locals.user._id,
-      url:result.secure_url
+      url:result.secure_url,
+      image_id:result.public_id
     });
     fs.unlinkSync(req.files.mage.tempFilePath)
     res.status(201).redirect('/users/dashboard');
@@ -95,5 +96,55 @@ const getAPhotos = async(req,res)=>{
 
 }
 
+const deletePhoto= async(req,res)=>{
+  try {
+    const photo = await Photo.findById(req.params.id)
+    const photoId =photo.image_id
 
-export { createPhoto,getAllPhotos,getAPhotos };
+    await cloudinary.uploader.destroy(photoId)
+    await Photo.findByIdAndRemove({_id : req.params.id})
+    
+    res.status(200).redirect('/users/dashboard');
+      
+  } catch (err) {
+      
+  }
+
+}
+
+const  updatePhoto= async(req,res)=>{
+  try {
+    const photo = await Photo.findById(req.params.id);
+
+    if (req.files) {
+      const photoId = photo.image_id;
+      await cloudinary.uploader.destroy(photoId);
+
+      const result = await cloudinary.uploader.upload(
+        req.files.image.tempFilePath,
+        {
+          use_filename: true,
+          folder: 'lenslight_tr',
+        }
+      );
+
+      photo.url = result.secure_url;
+      photo.image_id = result.public_id;
+
+      fs.unlinkSync(req.files.image.tempFilePath);
+    }
+
+    photo.name = req.body.name;
+    photo.description = req.body.description;
+
+    photo.save();
+
+    res.status(200).redirect(`/photos/${req.params.id}`);
+      
+  } catch (err) {
+      
+  }
+
+}
+
+export { createPhoto,getAllPhotos,getAPhotos,deletePhoto,updatePhoto };

@@ -101,6 +101,7 @@ const createToken=(userId)=>{
     res.render('dashboard', {
       link: 'dashboard',
       photos,
+      user,
     });
 }
 const getAllUsers = async(req,res)=>{
