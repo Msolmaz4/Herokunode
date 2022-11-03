@@ -46,4 +46,46 @@
         </div>
       <!-- end contact -->
       <!-- end footer -->
+
+      <script>
+        const form = document.querySelector('form')
+        const emailError = document.querySelector('#email')
+        const passwordError = document.querySelector('#password')
+        const usernameError = document.querySelector('#username')
+        form.addEventListener("submit", async (e) => {
+           e.preventDefault();
+        
+           const email = form.email.value
+           const password = form.password.value
+           const username = form.username.value
+           try {
+              const res = await fetch('users/register', {
+                 method: "POST",
+                 body: JSON.stringify({ email, password, username }),
+                 headers: { "Content-Type": "application/json" }
+              })
+              const data = await res.json();
+              console.log("DATA", data) // {}
+              if (data) {
+                 if (data.email) {
+                    emailError.textContent = data.email
+                    emailError.style.display = "block"
+                 }
+                 if (data.password) {
+                    passwordError.textContent = data.password
+                    passwordError.style.display = "block"
+                 }
+                 if (data.username) {
+                    usernameError.textContent = data.username
+                    usernameError.style.display = "block"
+                 }
+              }
+              if (data.user) {
+                 location.assign('/login')
+              }
+           } catch (err) {
+              console.log("ERR::", err)
+           }
+        })
+     </script>
       <%- include('partials/_footer')%> 
