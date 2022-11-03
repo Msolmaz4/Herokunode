@@ -52,35 +52,33 @@
 
       <script>
         const form = document.querySelector('form')
-        const sendMessage = document.querySelector('#email')
+        const sendMessage = document.querySelector('#sendMessage')
       
         form.addEventListener("submit", async (e) => {
            e.preventDefault();
         
-           const email = form.email.value
-           const password = form.password.value
-           const username = form.username.value
+           const name = form.name.value
+           const email= form.email.value
+           const message = form.message.value
            try {
-              const res = await fetch('users/register', {
+              const res = await fetch('/contact', {
                  method: "POST",
-                 body: JSON.stringify({ email, password, username }),
+                 body: JSON.stringify({ name, email, message }),
                  headers: { "Content-Type": "application/json" }
               })
               const data = await res.json();
               console.log("DATA", data) // {}
-              if (data) {
-                 if (data.email) {
-                    emailError.textContent = data.email
-                    emailError.style.display = "block"
-                 }
-                 if (data.password) {
-                    passwordError.textContent = data.password
-                    passwordError.style.display = "block"
-                 }
-                 if (data.username) {
-                    usernameError.textContent = data.username
-                    usernameError.style.display = "block"
-                 }
+              if (data.succeeded) {
+                sendMessage.textContent= 'Your Message Received Succesfully'
+                sendMessage.style.display = 'block'
+
+                setTimeout(()=>{
+                  sendMessage.style.display = 'none'
+                  form.name.value = ''
+                  form.email.value = ''
+                  form.message.value = ''
+
+                },5000)
               }
               if (data.user) {
                  location.assign('/login')
