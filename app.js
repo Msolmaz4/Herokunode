@@ -30,7 +30,7 @@ con()
 
 
 const app =express()
-const port = 4500
+const port = process.env.PORT;
 
 
 //ejs 
