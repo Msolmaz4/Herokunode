@@ -1,10 +1,21 @@
 
 import nodemailer from 'nodemailer';
+import Photo from '../models/photoModels.js'
+import User from '../models/userModel.js'
 
+//sort siralamada kullaniriy son yukenne onde dyruru
+//numOfUser kullanici sayisi
+const getIndexPage = async(req,res)=>{
 
-const getIndexPage =(req,res)=>{
+      const photos =  await Photo.find().sort({uploadeAt:-1}).limit(3)
+      const numOfUser = await User.countDocuments({})
+      const numOfPhotos = await Photo.countDocuments({})
+
 res.render('index',{
-    link:'index'
+    link:'index',
+    photos,
+    numOfUser,
+    numOfPhotos
 })
 }
 //sayafalara felindigindeki aktiv oaln sayfayi gosyermek icin link yaptim
