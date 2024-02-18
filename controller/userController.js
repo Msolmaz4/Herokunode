@@ -7,6 +7,7 @@ import Photo from '../models/photoModels.js'
 const createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
+    console.log(user)
    
     res.status(201).json({user:user._id})
   } catch (error) {
@@ -30,6 +31,7 @@ const createUser = async (req, res) => {
 const loginUser= async (req, res) => {
   try {
     const {username,password} =req.body
+    console.log(username,password,"reeeee")
     const user =await User.findOne({username:username})
 
     let same =false
