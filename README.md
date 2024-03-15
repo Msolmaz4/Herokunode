@@ -2,11 +2,6 @@
 ## nodeEJS
 
 
-
-
-![ejsso12](https://github.com/Msolmaz4/Herokunode/assets/86296198/d6eb1430-de97-4aab-89ae-0407563cc37b)
-
-
 └─ Herokunode
    ├─ .env
    ├─ app.js
