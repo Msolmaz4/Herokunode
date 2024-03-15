@@ -2,6 +2,7 @@
 ## nodeEJS
 
 
+
 └─ Herokunode
    ├─ .env
    ├─ app.js
@@ -34,6 +35,7 @@
    │  ├─ partials
    │  │  ├─ _footer.ejs
    │  │  ├─ _header.ejs
+
    │  │  └─ _menu.ejs
    │  ├─ photo.ejs
    │  ├─ photos.ejs
@@ -44,3 +46,4 @@
    │  └─ users.ejs
    └─ Yeni Zengin Metin Belgesi.rtf
 
+![ejsso12](https://github.com/Msolmaz4/Herokunode/assets/86296198/d150f719-2aaf-450a-8f54-cc6b2153a4f7)
