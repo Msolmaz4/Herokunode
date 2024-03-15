@@ -44,4 +44,3 @@
    │  └─ users.ejs
    └─ Yeni Zengin Metin Belgesi.rtf
 
-```
